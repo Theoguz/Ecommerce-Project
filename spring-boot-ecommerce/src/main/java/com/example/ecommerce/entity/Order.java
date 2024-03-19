@@ -25,7 +25,7 @@ public class Order {
     private String orderTrackingNumber;
 
     @Column(name = "total_price")
-    private int totalPrice;
+    private double totalPrice;
 
     @Column(name = "total_quantity")
     private int totalQuantity;
