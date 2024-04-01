@@ -2,9 +2,10 @@ version: '3.8'
 
 services:
   spring-boot-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: openjdk:19-alpine
+    command: [ "java", "-jar", "ecommerce.jar" ]
+    volumes:
+      - ./target/ecommerce.jar:/ecommerce.jar
     ports:
       - "8443:8443"
     environment:
@@ -23,12 +24,12 @@ services:
     ports:
       - "3307:3306"
     environment:
-        - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=full-stack-ecommerce
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=full-stack-ecommerce
     networks:
-        - networkmysql
+      - networkmysql
     volumes:
-        - mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
   angular-app:
     build:
