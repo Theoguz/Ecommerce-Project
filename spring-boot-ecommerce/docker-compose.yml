@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8443:8443"
+    environment:
+      - MYSQL_HOST=mysql-container
+      - MYSQL_PORT=3306
+      - MYSQL_DB_NAME=full-stack-ecommerce
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    depends_on:
+      - mysql-container
+    networks:
+      - networkmysql
+
+  mysql-container:
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=full-stack-ecommerce
+    networks:
+        - networkmysql
+    volumes:
+        - mysql_data:/var/lib/mysql
+
+  angular-app:
+    build:
+      context: C:\Users\Oguz\Desktop\ecommerce-project\03-frontend\angular-ecommerce
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - networkmysql
+
+networks:
+  networkmysql:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
